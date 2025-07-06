@@ -12,4 +12,6 @@ The algorithm the most important of this project is the shortest path between tw
 0°) Every neighbor is at an infinite distance from the initial vertex
 1°) At each step, every distance between a visited vertex and the initial one is actualised to be the sortest.
 2°) The final vertex is visited, we take the sortest path between this and the initial one. 
-There a clear exemple : 
+There is a clear exemple : https://github.com/user-attachments/assets/12e1c11a-aeaf-4de0-ab2b-cbdbcb25b198
+
+Lets now focus on the waste collection : 
