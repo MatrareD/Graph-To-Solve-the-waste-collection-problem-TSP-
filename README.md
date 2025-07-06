@@ -18,11 +18,16 @@ There is a clear example :
 ![Dijkstra](https://github.com/user-attachments/assets/12e1c11a-aeaf-4de0-ab2b-cbdbcb25b198)
 
 Let's now focus on the waste collection : 
-There are several points that have to be collected in Bordeaux, and I will put these specific vertices in a list called VDP (voluntary drop-off points). The idea is to find the shortest path to join them all and to go back to my initial vertex 0 (called the outlet).
+There are several points that have to be collected in Bordeaux, and I will put these specific vertices in a list called VDP (voluntary drop-off points). The idea is to find the shortest path to join them all and to go back to my initial vertex 0 (called the outlet). This is an example of what we call " Travelling Salesman Problem" (TSP).
+To find them, you can search to the municipality that gives every information. Bordeaux' one is the following adress: 
+https://www.bordeaux-metropole.fr/a-votre-service/services-aux-particuliers/gerer-reduire-mes-dechets/je-trie-mes-dechets/bornes-a (glass) and https://geo.bordeaux-metropole.fr/composteurs/index.html?context=QQHv (alimentary)
 
+![VDP](https://github.com/user-attachments/assets/dbc08f17-d8be-4683-94b0-216eae970251)4329-8ed9-d6a63313ea31)
 
 
 <> A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it the fastest than you can, and do it again until every point is collected. The issue is that such a method can not work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
 Here is an example : 
 
 ![Naive algorithm](https://github.com/user-attachments/assets/de2fb36a-5a39-4329-8ed9-d6a63313ea31)
+
+<> This is why you must use the 'real' distance given by Dijkstra algorithm, in order to consider the geometry of the city. However, this is still unefficient, because there are some points that you are collecting twice: I invite you to look at the following exemple. In green, there is the beggining in green and the end in blue : the 62 vertex is collected at the start ( green ) and at the end of the algorithm ( blue ). This shows that this simple idea is not enough to solve the TSP. 
