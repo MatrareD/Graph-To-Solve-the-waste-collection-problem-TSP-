@@ -20,3 +20,5 @@ https://github.com/user-attachments/assets/12e1c11a-aeaf-4de0-ab2b-cbdbcb25b198
 Let's now focus on the waste collection : 
 <> A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it the fastest than you can, and do it again until every point is collected. The issue is that such a method can not work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
 Here is an example : 
+
+![Naive algorithm](https://github.com/user-attachments/assets/de2fb36a-5a39-4329-8ed9-d6a63313ea31)
