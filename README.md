@@ -5,7 +5,7 @@ This is why I wanted to study the situation for the voluntary drop-off points (V
 
 Thanks to openstreetmap contributors : 
 https://www.openstreetmap.org/#map=13/44.84133/-0.5805
-you can have access to all data that you need. Indeed, the name of the differents roads, the properties of the ways and the direction of traffic being extrated, I was able to build a graph of Bordeaux from scratch. 
+you can have access to all data that you need. Indeed, the name of the differents roads, the properties of the ways and the direction of traffic being extrated, I was able to build a graph of Bordeaux from scratch. The following work will be done on a specif neighborhood : the Golden Triangle of Bordeaux, but it will work the same way for the others. 
 
 ![Ville](https://github.com/user-attachments/assets/580a785a-8576-4683-ae72-9578e8f0ab2b)
 
@@ -18,6 +18,10 @@ There is a clear example :
 ![Dijkstra](https://github.com/user-attachments/assets/12e1c11a-aeaf-4de0-ab2b-cbdbcb25b198)
 
 Let's now focus on the waste collection : 
+There are several points that have to be collected in Bordeaux, and I will put these specific vertices in a list called VDP (voluntary drop-off points). The idea is to find the shortest path to join them all and to go back to my initial vertex 0 (called the outlet).
+
+
+
 <> A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it the fastest than you can, and do it again until every point is collected. The issue is that such a method can not work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
 Here is an example : 
 
