@@ -6,4 +6,6 @@ This is why I wanted to study the situation for the voluntary drop-off points (g
 Thanks to openstreetmap contributors : 
 https://www.openstreetmap.org/#map=13/44.84133/-0.5805
 you can have access to all data that you need. Indeed, the name of the differents roads, the properties of the ways and the direction of traffic being extrated, I was able to build a graph of Bordeaux from scratch. 
+https://github.com/user-attachments/assets/580a785a-8576-4683-ae72-9578e8f0ab2b
 
+The algorithm the most important of this project is the shortest path between two vertices : Dijkstra algorithm. 
