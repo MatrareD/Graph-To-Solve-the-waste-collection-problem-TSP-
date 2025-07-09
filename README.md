@@ -1,11 +1,11 @@
 # Python TSP solver for waste collection 
 In a bid to entrance into a french engineer school, I had to work on the theme "Transition, Transformation, Conversion" for my TIPE. Therefore, I decided to focus on the waste collection problem in Bordeaux (French City).
-First, I wanted to work on household daily waste, but there were too much difficulties (and in the real life, the optimisation depends on on-field agents' experience).
-This is why I wanted to study the situation for the *voluntary drop-off points (VDP)* (glass columns or food waste) whose informatic optimisation is used by private companies or municipalities.
+First, I wanted to work on household daily waste, but there were too many difficulties (and in the real life, the optimisation depends on on-field agents' experience).
+This is why I wanted to study the situation for the *voluntary drop-off points (VDP)* (glass or food waste columns) whose informatic optimisation is used by private companies or municipalities.
 ## The city : Bordeaux, Le Triangle d'Or
 Thanks to openstreetmap contributors : 
 https://www.openstreetmap.org/#map=13/44.84133/-0.5805
-you can have access to all data that you need. Indeed, the name of the differents roads, the properties of the ways and the direction of traffic being extrated, I was able to build a graph of Bordeaux from scratch. The following work will be done on a specific neighborhood : the Golden Triangle of Bordeaux, but it will work the same way for the others. This strategy is known as **"divide and conquer"**. 
+you can have access to all data that you need. Indeed, the name of the different roads, the properties of the ways and the direction of traffic being extrated, I was able to build a graph of Bordeaux from scratch. The following work will be done on a specific neighborhood : the Golden Triangle of Bordeaux, but it will work the same way for the others. This strategy is known as **"divide and conquer"**. 
 
 ![Ville](https://github.com/user-attachments/assets/580a785a-8576-4683-ae72-9578e8f0ab2b)
 ## Graphs algorithms
