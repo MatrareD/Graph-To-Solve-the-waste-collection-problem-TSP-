@@ -22,7 +22,7 @@ There are several points that have to be collected in Bordeaux, and I will put t
 Several municipalities provide interesting data on their website. Bordeaux' one at the following adress: 
 https://www.bordeaux-metropole.fr/a-votre-service/services-aux-particuliers/gerer-reduire-mes-dechets/je-trie-mes-dechets/bornes-a (glass) and https://geo.bordeaux-metropole.fr/composteurs/index.html?context=QQHv (food)
 
-![VDP](https://github.com/user-attachments/assets/dbc08f17-d8be-4683-94b0-216eae970251)4329-8ed9-d6a63313ea31)
+![VDP](https://github.com/user-attachments/assets/dbc08f17-d8be-4683-94b0-216eae970251)
 
 
 - A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it as fast as possible, and do it again until every point is collected. The issue is that such a method can't work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
