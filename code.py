@@ -258,7 +258,7 @@ def make_matrice_dist(g): #influence of the distance between each vertices
                 weighted_matrix[i][j] = d[1]
     return (weighted_matrix)
 
-def make_matrice_phero(g,c): #influence of the ants, with their released pheronomones
+def make_matrice_phero(g,c): #influence of the ants, with their released pheronomones : that graph will be updated during algorithms
     weighted_matrix = [[0 for _ in g] for _ in g]
     for i in range(len(g)):
         for j in range(len(g)):
