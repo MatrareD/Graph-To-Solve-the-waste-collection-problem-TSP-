@@ -122,7 +122,7 @@ def tri_graph_croissant(g):
         g[x]= tri_fusion(L)
     return g
   
-def distance(a,b):
+def distance(a,b): # in km
     lat1,lon1,lat2,lon2 = a[1]*pi/180, a[2]*pi/180,b[1]*pi/180,b[2]*pi/180
     r = 6378.137
     dlat = (lat2 - lat1)
@@ -159,9 +159,9 @@ def weights():
             Weighted_city[s].append((v,distance(coordonnees(s),coordonnees(v))))
     return Weighted_city
 
-Weighted_city = weights()
+Weighted_city = weights() # the graph that we are going to exploit
 
-def dijkstra(g, v_init,v_fin):
+def dijkstra(g, v_init,v_fin): #shortest path between two vertices
     visited = {x : False for x in g}
     pred = {x : None for x in g}
     dist = {x : float('inf') for x in g}
@@ -221,8 +221,208 @@ def naive_algo_closest_neighbor(vdp,v_init):
                 stack.append((w, dw))
                 c = 1
         d = dijkstra(Weighted_city, last, v_init)
-    print("le chemin des bacs est " + path + d[0] + "-> 0")
-    print("et le trajet complet dans la ville est \n" + total_path)
+    print("the order of VDP is  " + path + d[0] + "-> 0")
+    print("and the path throughout the city is \n" + total_path)
     return km + d[1] # the length of the path
 
+
+def ordered_path(g:dict,ordre:list,v_init:int)-> float: # for a given order of VDP, we collect them throughout the given city 
+    l = rev(ordre)
+    dernier = v_init
+    trajet, chemin, rues = 0.0, "", ""
+    while len(l) > 0 :
+        v = l.pop()
+        d = dijkstra(g, dernier, v)
+        trajet += d[1]
+        chemin += d[0]
+        dernier = v
+    d = dijkstra(g, dernier, v_init)
+    chemin += d[0]
+    print (chemin)
+    return (trajet + d[1])
+
+first_path = [0,4,70,62,37,10,11,22,20,25,54,45,49,77]# obtained with naive_algo_closest_neighbor
+# with ordered_path(Weighted_city,first_path,0) :  5.45 km
+second_path = [0,4,10,11,22,20,49,45,25,37,70,54,62,77] # an other one, better than the previous one 
+# with ordered_path(Weighted_city,second_path,0) :  5.10 km
+
+#This naive method is not sufficient : let's introduce the Ant Colony Optimisation 
+
+def make_matrice_dist(g): #influence of the distance between each vertices
+    weighted_matrix = [[0 for _ in g] for _ in g]
+    for i in range(len(g)):
+        for j in range(len(g)):
+            if i != j :
+                d = dijkstra(Weigthed_city, i, j)
+                weighted_matrix[i][j] = d[1]
+    return (weighted_matrix)
+
+def make_matrice_phero(g,c): #influence of the ants, with their released pheronomones
+    weighted_matrix = [[0 for _ in g] for _ in g]
+    for i in range(len(g)):
+        for j in range(len(g)):
+           weighted_matrix[i][j] = c
+    return (weighted_matrix)
+Matrice_phero = make_matrice_phero(Weighted_city,10) #an arbitrary constant
+
+def cycle_length(g, cycle): # the number of km of a cycle
+    total = 0
+    for i in range(len(cycle) - 1):
+        total += g[cycle[i]][cycle[i+1]]
+    total += g[cycle[-1]][cycle[0]]  # back to the initial vertex
+    return total
+
+def degrade(g,fact): #transformation of  the graph 
+    for i in range(len(g)):
+        for j in range(len(g)):
+            g[i][j]=g[i][j]*fact
+    return None
+
+def traverse_graph(graph_dist,graph_phero, v_init,gprime):
+    ALPHA = 0.9
+    BETA = 1.5
+    visited = np.asarray([1 for i in gprime]) #none vertex is visited 
+    visited[v_init] = 0 #except for the initial one
+    cycle = [v_init]
+    steps = 0
+    current = v_init
+    total_length = 0
+    while steps < len(gprime) - 1:
+        jumps_neighbors = []
+        jumps_values = []
+        for node in range(len(gprime)):
+            if visited[node] != 0:
+               pheromone_level = max(graph_phero[current][node], 1e-5) #a constant to enhance exploration 
+               v = (pheromone_level**ALPHA ) / (graph_dist[current][node]**BETA)
+               jumps_neighbors.append(node)
+               jumps_values.append(v)
+        next_node = random.choices(jumps_neighbors, weights = jumps_values)[0]
+        visited[next_node] = 0
+        current = next_node
+        cycle.append(current)
+        steps+=1
+    total_length = cycle_length(graph_dist, cycle) # ajoute la distance du cycle
+    assert len(list(set(cycle))) == len(cycle)
+    return cycle, total_length
+
+def ant_colony_optimization(g_dist,g_phero, gprime, verbose=True, iterations = 100, ants_per_iteration = 50, q = 10,
+ degradation_factor = .9):
+    best_cycle = (traverse_graph(g_dist,g_phero,0,gprime))[0] #preset
+    best_length = cycle_length(g_dist, best_cycle)
+    for iteration in range(iterations):
+        cycles = [traverse_graph(g_dist,g_phero, random.randint(0, len(g_dist) -1),gprime)
+        for _ in range(ants_per_iteration)]
+        cycles.sort(key = lambda x: x[1])
+        cycles = cycles[: ants_per_iteration//2] #optionally keep best half.
+        if best_cycle: #elitism
+            cycles.append((best_cycle, best_length))
+        for cycle, total_length in cycles: # pheromone update
+            total_length = cycle_length(g_dist, cycle)
+            if total_length < best_length:
+                best_length = total_length
+                best_cycle = cycle
+            delta = q/total_length
+            i = 0
+            while i < len(cycle) -1:
+                g_phero[cycle[i]][cycle[i+1]]+= delta
+                i+=1
+            g_phero[cycle[i]][cycle[0]] += delta
+            degrade(g_phero,degradation_factor)
+    return best_cycle
+#However, this algorithm only works on Hamiltonian graphs, so I have to work on an other graph before having the best path. 
+#The idea is to create an auxiliary graph that keeps the most interesting points. 
+def creation_under_point(g,s): # g = PAV
+    neighbors = []
+    for w in g:
+        rep = True
+        if w !=s:
+            path = dijkstra(Weighted_city,s,w)[0]
+            n = len(path)
+            i = 0
+            while i < n and rep:
+                try :
+                    a = int(neighbors[i])
+                    try :
+                        b = int(path[i+1])
+                        c = b + 10*a
+                        if c in g:
+                            rep = (c == w  or c == s)
+                        i+=2
+                    except :
+                        if a in g:
+                            rep = (a == w or a == s)
+                        i+=1
+                except :
+                    i+=2
+            if not (i < n):
+                neighbors.append(w)
+    return neighbors
+
+def creation_under_graph(g):
+    gr = {}
+    for s in g :
+        gr[s]=creation_under_point(g,s)
+    return gr
+    
+def converter(new):
+    g = {}
+    for i in new:
+        for j in new[i]:
+            g[j]=0
+    l = []
+    for i in g:
+        l.append(i)
+    lprime = sorted(l)
+    n = len(lprime)
+    gconv = {i:(-1) for i in range(n)}
+    for k in range(n):
+        gconv[k] = lprime[k]
+    gprime = {i:[] for i in range(n)}
+    for k in range(n):
+        lk = []
+        for j in nouv[lprime[k]]:
+            for i in gconv:
+                if gconv[i] == j:
+                    lk.append(i)
+        gprime[k] = lk
+    return gconv,gprime
+
+def make_matrice_dist_bis(gconv,g): #new graph, more interesting to use with ACO (and then we make the reverse operation to have the real path)
+    matrice_pondérée = [[0 for _ in g] for _ in g]
+    for i in range(len(g)):
+        for j in range(len(g)):
+            if i != j :
+                d = dijkstra(Ville_pondérée, gconv[i], gconv[j])
+                matrice_pondérée[i][j] = d[1]
+    return (matrice_pondérée)
+
+
+g1,g2 = converter(creation_under_graph(VDP))
+m1 = make_matrice_dist_bis(g1,g2)
+m2 = make_matrice_phero(g2,0.5)
+
+def scnd_read(l1,g):
+    l2=[]
+    for i in l1:
+        l2.append(g[i])
+    return l2
+
+def creation_path(l,v_init): #transform a given order of VDP to a real path of VDP (starts with 0)
+    n = len(l)
+    k = (-1)
+    for i in range(len(l)):
+        if l[i]==v_init:
+            k = i
+    if k == (n-1):
+        return [v_init]+l[:(n-1)]
+    elif k == 0:
+        return l
+    else :
+        return l[k:]+l[:k]
+        
+best_path = [0,4,70,54,45,49,25,10,11,20,22,37,62,77]   #obtained with ACO
+# with ordered_path(Weighted_city,best_path,0)  :  4.64 km
+
+#In a bid to use ACO, the command that you have to enter is the following :
+# ordred_path(Weighted_city,creation_path((scnd_read(ant_colony_optimization(m1,m2,g1,True,200,200,10,0.6,False),g1)),0),0)
 
