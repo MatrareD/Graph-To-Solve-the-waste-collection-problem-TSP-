@@ -9,23 +9,23 @@ you can have access to all data that you need. Indeed, the name of the different
 
 ![Ville](https://github.com/user-attachments/assets/580a785a-8576-4683-ae72-9578e8f0ab2b)
 ## Graphs algorithms
-The most important algorithm of this project is the shortest path between two vertices : **Dijkstra algorithm**. It provides the real distance in my neighborhood between two intersections. This is how it works: 
-0°) Every neighbor is at an infinite distance from the initial vertex
-1°) At each step, every distance between a visited vertex and the initial one is updated to be the shortest.
-2°) The final vertex is visited, we take the shortest path between this and the initial one. 
+The most important algorithm of this project is the shortest path between two vertices : **Dijkstra algorithm**. It provides the real distance in my neighborhood between two intersections. This is how it works:\
+0°) Every neighbor is at an infinite distance from the initial vertex.\
+1°) At each step, every distance between a visited vertex and the initial one is updated to be the shortest.\  
+2°) The final vertex is visited, we take the shortest path between this and the initial one.\
 See the following example :  
 
 ![Dijkstra](https://github.com/user-attachments/assets/12e1c11a-aeaf-4de0-ab2b-cbdbcb25b198)
 
 Let's now focus on the waste collection : 
 There are several points that have to be collected in Bordeaux, and I will put these specific vertices in a list called VDP (voluntary drop-off points). The idea is to find the shortest path to join them all and to go back to my initial vertex 0 (called the outlet). This is an example of what we call **"Travelling Salesman Problem" (TSP)**.
-To find them, you can search to the municipality that gives every information. Bordeaux' one is the following adress: 
+Several municipalities provide interesting data on their website. Bordeaux' one at the following adress: 
 https://www.bordeaux-metropole.fr/a-votre-service/services-aux-particuliers/gerer-reduire-mes-dechets/je-trie-mes-dechets/bornes-a (glass) and https://geo.bordeaux-metropole.fr/composteurs/index.html?context=QQHv (food)
 
 ![VDP](https://github.com/user-attachments/assets/dbc08f17-d8be-4683-94b0-216eae970251)4329-8ed9-d6a63313ea31)
 
 
-- A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it the fastest than you can, and do it again until every point is collected. The issue is that such a method can not work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
+- A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it as fast as possible, and do it again until every point is collected. The issue is that such a method can not work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
 Here is an example : 
 
 ![Naive algorithm](https://github.com/user-attachments/assets/de2fb36a-5a39-4329-8ed9-d6a63313ea31)
