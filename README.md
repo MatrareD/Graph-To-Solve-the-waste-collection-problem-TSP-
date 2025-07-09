@@ -11,7 +11,7 @@ you can have access to all data that you need. Indeed, the name of the different
 ## Graphs algorithms
 The most important algorithm of this project is the shortest path between two vertices : **Dijkstra algorithm**. It provides the real distance in my neighborhood between two intersections. This is how it works:\
 0°) Every neighbor is at an infinite distance from the initial vertex.\
-1°) At each step, every distance between a visited vertex and the initial one is updated to be the shortest.\  
+1°) At each step, every distance between a visited vertex and the initial one is updated to be the shortest.
 2°) The final vertex is visited, we take the shortest path between this and the initial one.\
 See the following example :  
 
@@ -25,7 +25,7 @@ https://www.bordeaux-metropole.fr/a-votre-service/services-aux-particuliers/gere
 ![VDP](https://github.com/user-attachments/assets/dbc08f17-d8be-4683-94b0-216eae970251)4329-8ed9-d6a63313ea31)
 
 
-- A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it as fast as possible, and do it again until every point is collected. The issue is that such a method can not work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
+- A naive idea could be to see where is the closest VDP, with a distance as the crow flies, and to reach it as fast as possible, and do it again until every point is collected. The issue is that such a method can't work in a tiny neighborhood where most of the roads have a single traffic direction, the closest as the crow flies is not really the closest of the initial vertex in such a city. 
 Here is an example : 
 
 ![Naive algorithm](https://github.com/user-attachments/assets/de2fb36a-5a39-4329-8ed9-d6a63313ea31)
