@@ -246,7 +246,8 @@ first_path = [0,4,70,62,37,10,11,22,20,25,54,45,49,77]# obtained with naive_algo
 second_path = [0,4,10,11,22,20,49,45,25,37,70,54,62,77] # an other one, better than the previous one 
 # with ordered_path(Weighted_city,second_path,0) :  5.10 km
 
-#This naive method is not sufficient : let's introduce the Ant Colony Optimisation 
+#This naive method is not sufficient : let's introduce the Ant Colony Optimisation.
+#Best method here.
 
 def make_matrice_dist(g): #influence of the distance between each vertices
     weighted_matrix = [[0 for _ in g] for _ in g]
