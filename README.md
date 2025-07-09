@@ -1,7 +1,7 @@
 # Python TSP solver for waste collection 
 In a bid to entrance into a french engineer school, I had to work on the theme "Transition, Transformation, Conversion" for my TIPE. Therefore, I decided to focus on the waste collection probleme in Bordeaux (French City).
 First, I wanted to work on household daily waste, but there were too much difficulties (and in the real life, the optimisation depends on on-field agents' experience).
-This is why I wanted to study the situation for the voluntary drop-off points (VDP) (glass columns or alimentary waste) whose informatic optimisation is used by private companies or municipalities.
+This is why I wanted to study the situation for the voluntary drop-off points (VDP) (glass columns or food waste) whose informatic optimisation is used by private companies or municipalities.
 
 Thanks to openstreetmap contributors : 
 https://www.openstreetmap.org/#map=13/44.84133/-0.5805
@@ -20,7 +20,7 @@ There is a clear example :
 Let's now focus on the waste collection : 
 There are several points that have to be collected in Bordeaux, and I will put these specific vertices in a list called VDP (voluntary drop-off points). The idea is to find the shortest path to join them all and to go back to my initial vertex 0 (called the outlet). This is an example of what we call " Travelling Salesman Problem" (TSP).
 To find them, you can search to the municipality that gives every information. Bordeaux' one is the following adress: 
-https://www.bordeaux-metropole.fr/a-votre-service/services-aux-particuliers/gerer-reduire-mes-dechets/je-trie-mes-dechets/bornes-a (glass) and https://geo.bordeaux-metropole.fr/composteurs/index.html?context=QQHv (alimentary)
+https://www.bordeaux-metropole.fr/a-votre-service/services-aux-particuliers/gerer-reduire-mes-dechets/je-trie-mes-dechets/bornes-a (glass) and https://geo.bordeaux-metropole.fr/composteurs/index.html?context=QQHv (food)
 
 ![VDP](https://github.com/user-attachments/assets/dbc08f17-d8be-4683-94b0-216eae970251)4329-8ed9-d6a63313ea31)
 
