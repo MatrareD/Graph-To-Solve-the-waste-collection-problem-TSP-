@@ -6,7 +6,7 @@ import numpy as np
 import random as random
 
 # Initiation of the city : Le Triangle D'Or in Bordeaux, with each point of intersection
-
+<a name="unique-anchor-name">
 Points = {"exutoire":[[0,44.843316, -0.570308]],
 "Place Jean Jaurès":[[0,44.843316, -0.570308],[1,44.843298, -0.570498],
 [2,44.843241, -0.571072],[3,44.842607, -0.570913]],
@@ -86,7 +86,7 @@ Ville = {0:[1,69], 1:[0,2], 2:[1,3,7,76], 3:[2,4], 4:[3], 5:[4], 6:[5,7,73],
 66:[31,65], 67:[64,68], 68:[78], 69:[0,81], 70:[68,71], 71:[64],
 72:[70,71], 73:[6,8,72], 74:[6,70], 75:[74], 76:[75], 77:[1,76],
 78:[69,77], 79:[24,35], 80:[52], 81:[69,82], 82:[56,83], 83:[84], 84:[83,85], 85:[54,84]}
-
+</a>
 # Points to collect : Voluntary drop-off points VDP
 
 VDP = { 0:["exutoire"], 4:["Glass"], 10:["Glass","Food"],
