@@ -90,4 +90,139 @@ VDP = { 0:["exutoire"], 4:["Glass"], 10:["Glass","Food"],
 49:["Glass"], 54:["Food"], 62:["Glass"],
 70:["Glass","Food"], 77:["Glass","Food"] }
 
+def fusion(liste1,liste2): # will help for next algorithms
+    liste=[]
+    i,j=0,0
+    while i<len(liste1)and j<len(liste2):
+        if liste1[i][1]<=liste2[j][1]:
+            liste.append(liste1[i])
+            i+=1
+        else:
+            liste.append(liste2[j])
+            j+=1
+    while i<len(liste1):
+        liste.append(liste1[i])
+        i+=1
+    while j<len(liste2):
+        liste.append(liste2[j])
+        j+=1
+    return liste
+
+def sort_fusion(liste):
+    if len(liste)<2:
+        return liste
+    else:
+        milieu=len(liste)//2
+        liste1=sort_fusion(liste[:milieu])
+        liste2=sort_fusion(liste[milieu:])
+        return fusion(liste1,liste2)
+def tri_graph_croissant(g):
+    for x in g:
+        L=g[x]
+        g[x]= tri_fusion(L)
+    return g
+  
+def distance(a,b):
+    lat1,lon1,lat2,lon2 = a[1]*pi/180, a[2]*pi/180,b[1]*pi/180,b[2]*pi/180
+    r = 6378.137
+    dlat = (lat2 - lat1)
+    dlon = (lon2 - lon1)
+    a = sin(dlat/2)*sin(dlat/2) + cos(lat1)*cos(lat2)*sin(dlon/2)*sin(dlon/2)
+    c = 2*r*atan2(sqrt(a), sqrt(1-a))
+    return(c)
+
+def reverse_graph_city():
+    Vertices = {x:[] for x in range(86)}
+    for rue in Points:
+        try :
+            for (p,lat,long) in Points[rue]:
+                if not (rue in Vertices[p]):
+                   Vertices[p].append(rue)
+        except:
+            print(f"'{rue}' not found.")
+    return Vertices
+
+Sommets = inversion_graphe_ville()
+
+def coordonnees(s:int)->list:
+    rue_de_s = Vertices[s][0]
+    coord=[]
+    for p in Points[rue_de_s]:
+        if p[0]==s:
+            coord=p
+    return coord
+
+def weights():
+    Weighted_city = {s:[] for s in Ville}
+    for s in City :
+        for v in City[s]:
+            Weighted_city[s].append((v,distance(coordonnees(s),coordonnees(v))))
+    return Weighted_city
+
+Weighted_city = weights()
+
+def dijkstra(g, v_init,v_fin):
+    visited = {x : False for x in g}
+    pred = {x : None for x in g}
+    dist = {x : float('inf') for x in g}
+    dist[v_init] = 0
+    hq = [(0, v_init)]
+    heapq.heapify(hq)
+    while len(hq) > 0 and not(visited[v_fin]):
+        dv, v = heapq.heappop(hq)
+        if not visited[v]:
+            visited[v] = True
+            for w, dvw in g[v]:
+                if not visited[w]:
+                    dw = dv + dvw
+                    if dw < dist[w]:
+                        dist[w] = dw
+                        pred[w] = v
+                        heapq.heappush(hq, (dw, w))
+    C = [v_fin]
+    while C[0] != v_init:
+        w = pred[C[0]]
+        C = [w] + C
+    end = ""
+    for x in C:
+        end += "->" + str(x)
+    return (end, dist[v_fin])
+  # O[(|A|+|S|)log(|S|)] complexity
+
+def naive_algo_closest_neighbor(vdp,v_init):
+    l = [0]
+    city_bacs = {x:[] for x in vdp}
+    for bac in vdp :
+        for end in vdp :
+            if bac == end :
+                None
+            else :
+                d = dijkstra(Weighted_city,bac,end)
+                city_bacs[bac].append((end,d[1]))
+    visited = {x : False for x in vdp}
+    stack = [(0,0)]
+    last = 0
+    km = 0
+    path = ""
+    total_path = ""
+    ordered_vdp = sort_graph_increasing(city_bacs)
+    while len(stack) > 0:
+        v, dv = stack.pop()
+        total_path += "->" + dijkstra(Weighted_city,last,v)[0]
+        last = v
+        if not visited[v]:
+            visited[v] = True
+            l.append(0)
+            path += "->" + str(v)
+            km+=dv
+        c = 0
+        for w, dw in ordered_vdp[v]:
+            if not visited[w] and c == 0:
+                stack.append((w, dw))
+                c = 1
+        d = dijkstra(Weighted_city, last, v_init)
+    print("le chemin des bacs est " + path + d[0] + "-> 0")
+    print("et le trajet complet dans la ville est \n" + total_path)
+    return km + d[1] # the length of the path
+
 
